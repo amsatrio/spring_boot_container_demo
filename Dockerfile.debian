@@ -1,0 +1,20 @@
+# BUILDER
+FROM maven:3.9-ibm-semeru-21-jammy as builder
+RUN mkdir -p /app/src
+RUN mkdir -p /app/bin
+RUN mkdir -p /root/.m2
+WORKDIR /app/src
+COPY . .
+RUN ./mvnw package -f pom.xml -Dmaven.test.skip=true
+RUN cp /app/src/target/*.jar /app/bin/app.jar
+WORKDIR /app
+RUN rm -rf /app/src
+
+# DEPLOYER
+FROM openjdk:21-slim-buster
+WORKDIR /opt/spring_boot_container_demo
+COPY --from=builder /app/bin/app.jar app.jar
+RUN mkdir logs
+EXPOSE 8004
+RUN rm -f ./logs/*
+ENTRYPOINT ["java", "-XX:+UseG1GC", "-XX:+UseStringDeduplication", "-server", "-jar", "app.jar"]

@@ -1,0 +1,42 @@
+services:
+  app:
+    container_name: spring-boot-container-demo
+    image: spring-boot-container-demo
+    build:
+      context: .
+      dockerfile: Dockerfile.debian
+    ports:
+      - "8004:8004"
+    networks:
+      - sql-database-network
+      - nosql-database-network
+      - elastic-network
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    volumes:
+      - /home/user0/.m2:/root/.m2
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+
+networks:
+  sql-database-network:
+    name: sql-database-network
+    driver: bridge
+    external: true
+  nosql-database-network:
+    name: nosql-database-network
+    driver: bridge
+    external: true
+  elastic-network:
+    name: elastic-network
+    driver: bridge
+    external: true
+
+volumes:
+  m2:
+    driver: local
