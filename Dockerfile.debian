@@ -10,7 +10,7 @@ RUN cp /app/src/target/*.jar /app/bin/app.jar
 WORKDIR /app
 RUN rm -rf /app/src
 
-# DEPLOYER
+# PRODUCTION
 FROM eclipse-temurin:21-jre
 WORKDIR /opt/spring_boot_container_demo
 COPY --from=builder /app/bin/app.jar app.jar
