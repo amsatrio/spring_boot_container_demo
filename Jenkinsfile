@@ -11,10 +11,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 script {
-                    def dockerImage = 'spring-boot-container-demo'
-                    docker.image(dockerImage).inside {
-                        sh './mvnw clean test -f pom.xml'
-                    }
+                    sh './mvnw clean test -f pom.xml'
                 }
             }
         }
