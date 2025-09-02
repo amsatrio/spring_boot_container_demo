@@ -1,14 +1,14 @@
 #!groovy
 pipeline {
-   agent {
-       docker {
-             image 'eclipse-temurin:21-jdk'
-             args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-       }
-    }
     
     stages {
         stage('Build & Test') {
+            agent {
+                docker {
+                        image 'eclipse-temurin:21-jdk'
+                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 script {
                     sh './mvnw clean test -f pom.xml'
@@ -17,6 +17,12 @@ pipeline {
         }
 
         stage('Code Coverage') {
+            agent {
+                docker {
+                        image 'eclipse-temurin:21-jdk'
+                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 jacoco(
                     execPattern: 'target/jacoco.exec',
