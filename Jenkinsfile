@@ -21,13 +21,12 @@ pipeline {
 
         stage('Code Coverage') {
             steps {
-                coverage([
-                    execPattern: 'target/site/jacoco/jacoco.exec', // Adjust the path as needed
+                jacoco(
+                    execPattern: 'target/jacoco.exec',
                     classPattern: 'target/classes',
                     sourcePattern: 'src/main/java',
-                    inclusionPattern: '**/*.class',
-                    exclusionPattern: '**/test/**'
-                ])
+                    exclusionPattern: 'src/test/*'
+                )
             }
         }
 
@@ -42,7 +41,13 @@ pipeline {
     }
     post {
         always {
-            junit 'target/surefire-reports/*.xml' // Archive test results
+            jacoco()
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
         }
     }
 }
