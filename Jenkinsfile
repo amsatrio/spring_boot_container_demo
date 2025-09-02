@@ -6,7 +6,7 @@ pipeline {
             agent {
                 docker {
                         image 'eclipse-temurin:21-jdk'
-                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock -v /root/.m2:/root/.m2'
                 }
             }
             steps {
@@ -20,7 +20,7 @@ pipeline {
             agent {
                 docker {
                         image 'eclipse-temurin:21-jdk'
-                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock -v /root/.m2:/root/.m2'
                 }
             }
             steps {
