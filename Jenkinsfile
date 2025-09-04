@@ -33,11 +33,23 @@ pipeline {
             }
         }
 
-        stage('Docker Build and Deploy') {
+        stage('Docker Build') {
             agent any
             steps {
                 script {
                   sh 'docker compose up --build -d'
+                  sh 'docker compose down'
+                  sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
+                  sh 'docker push localhost:4000/spring-boot-container-demo'
+                }
+            }
+        }
+
+        stage('Kubernates Deploy') {
+            agent any
+            steps {
+                script {
+                  sh 'kubectl apply -f k8s.yaml'
                 }
             }
         }
