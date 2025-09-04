@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                   sh 'docker compose up --build -d'
+				  sh 'docker cp spring-boot-container-demo:/root/.m2 /home/jenkins/'
                   sh 'docker compose down'
                   sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
                   sh 'docker push localhost:4000/spring-boot-container-demo'
