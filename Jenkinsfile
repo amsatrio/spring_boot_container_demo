@@ -49,7 +49,10 @@ pipeline {
             agent any
             steps {
                 script {
-                  sh 'KUBECONFIG=/home/jenkins/.kube/config kubectl apply -f k8s.yaml'
+				  sh '''
+				  export KUBECONFIG=/home/jenkins/.kube/config
+				  kubectl apply -f k8s.yaml 
+				  '''
                 }
             }
         }
