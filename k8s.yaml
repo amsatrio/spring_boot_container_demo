@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-boot
+      app: spring-boot-container-demo-app
   template:
     metadata:
       labels:
-        app: spring-boot
+        app: spring-boot-container-demo-app
     spec:
       containers:
       - name: spring-boot-container
