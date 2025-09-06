@@ -11,6 +11,10 @@ pipeline {
             }
             steps {
                 script {
+                    sh '''
+                    sed -i 's|        <appender-ref ref="KAFKA" />|        <!-- <appender-ref ref="KAFKA" /> -->|g' src/main/resources/logback-spring.xml;
+                    sed -i 's|        <!-- <appender-ref ref="STDOUT" /> -->|        <appender-ref ref="STDOUT" />|g' src/main/resources/logback-spring.xml;
+                    '''
                     sh './mvnw clean test -f pom.xml'
                 }
             }
@@ -37,10 +41,14 @@ pipeline {
             agent any
             steps {
                 script {
-                  sh 'docker compose up --build -d'
-                  sh 'docker compose down'
-                  sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
-                  sh 'docker push localhost:4000/spring-boot-container-demo'
+                    sh '''
+                    sed -i 's|        <!-- <appender-ref ref="KAFKA" /> -->|        <appender-ref ref="KAFKA" />|g' src/main/resources/logback-spring.xml;
+                    sed -i 's|        <appender-ref ref="STDOUT" />|        <!-- <appender-ref ref="STDOUT" /> -->|g' src/main/resources/logback-spring.xml;
+                    '''
+                    sh 'docker compose up --build -d'
+                    sh 'docker compose down'
+                    sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
+                    sh 'docker push localhost:4000/spring-boot-container-demo'
                 }
             }
         }
