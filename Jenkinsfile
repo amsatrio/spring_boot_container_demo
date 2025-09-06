@@ -51,7 +51,7 @@ pipeline {
                 script {
 				  sh '''
 				  export KUBECONFIG=/home/jenkins/.kube/config
-				  kubectl apply -f k8s.yaml 
+				  kubectl apply -f k8s.yaml --validate=false
 				  '''
                 }
             }
