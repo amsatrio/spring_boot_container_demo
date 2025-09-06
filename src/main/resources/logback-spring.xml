@@ -19,7 +19,7 @@
     <property name="logPattern" value="%d | %-5level | %logger{35} | %msg%n" />
     <property name="logEncoding" value="UTF-8" />
     <property name="logDirectory" value="logs" />
-    <property name="logServiceName" value="spring-hospital" />
+    <property name="logServiceName" value="spring-boot-container-demo" />
 
     <appender name="STDOUT" class="ConsoleAppender">
         <encoder class="PatternLayoutEncoder">
@@ -121,11 +121,11 @@
 
     <logger name="org.apache.kafka" level="info" />
     <root>
-        <!-- <appender-ref ref="KAFKA" /> -->
+        <appender-ref ref="KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
         <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
-        <appender-ref ref="ASYNC_STDOUT" />
-        <appender-ref ref="ASYNC_ROLLING" />
+        <!-- <appender-ref ref="ASYNC_STDOUT" /> -->
+        <!-- <appender-ref ref="ASYNC_ROLLING" /> -->
     </root>
 </configuration>

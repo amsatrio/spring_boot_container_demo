@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import io.github.amsatrio.spring_boot_container_demo.module.health.HealthRepository;
+
 @SpringBootTest
 public class HealthRepositoryTest {
     @Autowired

@@ -1,4 +1,4 @@
-package io.github.amsatrio.spring_boot_container_demo.health;
+package io.github.amsatrio.spring_boot_container_demo.module.health;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

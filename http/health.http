@@ -1,0 +1,4 @@
+@base_url=http://localhost:8004
+
+### GET 1
+curl -X GET --location {{base_url}}/m-biodata

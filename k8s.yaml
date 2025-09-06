@@ -21,7 +21,7 @@ spec:
         - containerPort: 8004
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: "prod"  # Change as needed for your profile
+          value: "kubernates"  # Change as needed for your profile
         resources:
           requests:
             memory: "96Mi"  # Minimum memory required

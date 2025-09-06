@@ -5,7 +5,7 @@ RUN mkdir -p /app/bin
 RUN mkdir -p /root/.m2
 WORKDIR /app/src
 COPY . .
-RUN mvn -B dependency:go-offline
+#RUN mvn -B dependency:go-offline
 RUN ./mvnw package -f pom.xml -Dmaven.test.skip=true
 RUN cp /app/src/target/*.jar /app/bin/app.jar
 WORKDIR /app

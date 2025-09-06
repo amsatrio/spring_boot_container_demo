@@ -10,6 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import io.github.amsatrio.spring_boot_container_demo.module.health.HealthRepository;
+import io.github.amsatrio.spring_boot_container_demo.module.health.HealthService;
+
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class HealthServiceTest {

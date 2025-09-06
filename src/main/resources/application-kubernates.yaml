@@ -1,0 +1,87 @@
+spring:
+  # Database
+  datasource:
+    hikari:
+      initialization-fail-timeout: 0
+      maximum-pool-size: 10
+      minimum-idle: 5
+    db1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://mariadb-service/db_hospital?zeroDateTimeBehavior=convertToNull
+        username: user_local
+        password: auUmc2FutKX5frJad3uVpNM5mnbXhzS53AygPwijprD9qfabKYebggJpJKcWCN9NmQpUf7QM7wFcyg7AWMLhFTdHXy34fX7zvrMjbe9usMnPpAWS9KF779XTEAEQE22s
+    db2:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://timescaledb-service/db_hospital
+        username: user_local
+        password: auUmc2FutKX5frJad3uVpNM5mnbXhzS53AygPwijprD9qfabKYebggJpJKcWCN9NmQpUf7QM7wFcyg7AWMLhFTdHXy34fX7zvrMjbe9usMnPpAWS9KF779XTEAEQE22s
+
+  # Redis (Cache)
+  cache.type: redis
+  data.redis:
+    host: redis-service
+    port: 6379
+    password: 8cffbaaa5bd144ab1939361a03103eed7d1af6fd9e2052b1ef73502745a3dfcc
+    # Connection timeout in milliseconds
+    timeout: 5000
+    # Set to true if Redis server is using SSL/TLS
+    ssl.enabled: false
+
+  # LIMIT FILE
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 50MB
+      resolve-lazily: true
+
+  # EMAIL
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 587
+    username: f914230f2ba7ac
+    password: ef900767787926
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connection-timeout: 5000
+          timeout: 5000
+          write-timeout: 5000
+          # TLS , port 587
+          starttls:
+            enable: true
+
+# DOCUMENTATION
+springdoc:
+  api-docs:
+    enabled: true
+    path: /doc/api-docs
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+
+
+# Management endpoint
+management:
+  endpoints.web.exposure.include: health,info,prometheus
+  endpoint:
+    health:
+      access: READ_ONLY
+    info:
+      access: READ_ONLY
+
+server:
+  port: 8004
+  error:
+    whitelabel.enabled: false
+    # include-exception: true
+    # include-stacktrace: always
+    # include-message: always
+    # path: /error
+  compression:
+    enabled: true
+    min-response-size: 4096
+    mime-types: text/html, text/xml, text/plain, text/css, text/javascript, application/javascript, application/json
+  tomcat.connection-timeout: 600000
+  netty.connection-timeout: 600000
+  forward-headers-strategy: native
