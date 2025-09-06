@@ -121,11 +121,11 @@
 
     <logger name="org.apache.kafka" level="info" />
     <root>
-        <appender-ref ref="KAFKA" />
+        <!-- <appender-ref ref="KAFKA" /> -->
         <!-- <appender-ref ref="ROLLING" /> -->
         <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
-        <!-- <appender-ref ref="ASYNC_STDOUT" /> -->
+        <appender-ref ref="ASYNC_STDOUT" />
         <!-- <appender-ref ref="ASYNC_ROLLING" /> -->
     </root>
 </configuration>
