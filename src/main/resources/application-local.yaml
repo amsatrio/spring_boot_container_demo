@@ -51,6 +51,12 @@ spring:
           starttls:
             enable: true
 
+  kafka:
+    bootstrap-servers: dell3050.tailb8a972.ts.net:9092
+    producer:
+      retries: 2
+      bootstrap-servers: dell3050.tailb8a972.ts.net:9092
+      
 # DOCUMENTATION
 springdoc:
   api-docs:

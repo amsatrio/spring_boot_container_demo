@@ -1,11 +1,10 @@
 # BUILDER
-FROM maven:3.9-eclipse-temurin-21-alpine as builder
+FROM localhost:4000/spring-boot-builder:latest as builder
 RUN mkdir -p /app/src
 RUN mkdir -p /app/bin
 RUN mkdir -p /root/.m2
 WORKDIR /app/src
 COPY . .
-#RUN mvn -B dependency:go-offline
 RUN ./mvnw package -f pom.xml -Dmaven.test.skip=true
 RUN cp /app/src/target/*.jar /app/bin/app.jar
 WORKDIR /app
