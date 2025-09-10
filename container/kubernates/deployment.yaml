@@ -29,15 +29,3 @@ spec:
           limits:
             memory: "512Mi"  # Maximum memory allowed
             cpu: "1"         # Maximum CPU allowed
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: spring-boot-container-demo-service
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 8000
-    targetPort: 8004
-  selector:
-    app: spring-boot-container-demo-app

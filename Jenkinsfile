@@ -45,8 +45,15 @@ pipeline {
                     sed -i 's|        <!-- <appender-ref ref="KAFKA" /> -->|        <appender-ref ref="KAFKA" />|g' src/main/resources/logback-spring.xml;
                     sed -i 's|        <appender-ref ref="STDOUT" />|        <!-- <appender-ref ref="STDOUT" /> -->|g' src/main/resources/logback-spring.xml;
                     '''
-                    sh 'docker compose up --build -d'
-                    sh 'docker compose down'
+                    sh 'docker rmi -f localhost:4000/spring-boot-container-demo:latest'
+                    sh 'docker compose -f ./container/docker/compose.yaml build'
+                }
+            }
+        }
+        stage('Push the Image to Local Registry') {
+            agent any
+            steps {
+                script {
                     sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
                     sh 'docker push localhost:4000/spring-boot-container-demo'
                 }
@@ -58,8 +65,8 @@ pipeline {
             steps {
                 script {
 				  sh '''
-				  export KUBECONFIG=/home/jenkins/.kube/config
-				  kubectl apply -f k8s.yaml --validate=false
+				  kubectl apply -f container/kubernates/service.yaml --validate=false
+                  kubectl apply -f container/kubernates/deployment.yaml --validate=false
 				  '''
                 }
             }
