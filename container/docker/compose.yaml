@@ -15,8 +15,6 @@ services:
       resources:
         limits:
           memory: 256m
-    volumes:
-      - /home/user0/.m2:/root/.m2
     ulimits:
       memlock:
         soft: -1
@@ -36,7 +34,3 @@ networks:
     name: elastic-network
     driver: bridge
     external: true
-
-volumes:
-  m2:
-    driver: local
