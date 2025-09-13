@@ -5,8 +5,13 @@ pipeline {
         stage('Build & Test') {
             agent {
                 docker {
-                        image 'localhost:4000/spring-boot-builder:latest'
-                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock -v /root/.m2:/root/.m2'
+                        image 'localhost:4000/java-builder:latest'
+                        args '''
+                        --network host 
+                        -u root 
+                        -v /var/run/docker.sock:/var/run/docker.sock 
+                        -v /root/.m2:/root/.m2
+                        '''
                 }
             }
             steps {
@@ -23,8 +28,13 @@ pipeline {
         stage('Code Coverage') {
             agent {
                 docker {
-                        image 'localhost:4000/spring-boot-builder:latest'
-                        args '--network host -u root -v /var/run/docker.sock:/var/run/docker.sock -v /root/.m2:/root/.m2'
+                        image 'localhost:4000/java-builder:latest'
+                        args '''
+                        --network host 
+                        -u root 
+                        -v /var/run/docker.sock:/var/run/docker.sock 
+                        -v /root/.m2:/root/.m2
+                        '''
                 }
             }
             steps {
