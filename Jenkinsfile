@@ -53,7 +53,8 @@ pipeline {
                 script {
                     sh '''
                     sed -i 's|        <!-- <appender-ref ref="KAFKA" /> -->|        <appender-ref ref="KAFKA" />|g' src/main/resources/logback-spring.xml;
-                    sed -i 's|        <appender-ref ref="STDOUT" />|        <!-- <appender-ref ref="STDOUT" /> -->|g' src/main/resources/logback-spring.xml;
+                    # sed -i 's|        <appender-ref ref="STDOUT" />|        <!-- <appender-ref ref="STDOUT" /> -->|g' src/main/resources/logback-spring.xml;
+                    sed -i 's|        <!-- <appender-ref ref="STDOUT" /> -->|        <appender-ref ref="STDOUT" />|g' src/main/resources/logback-spring.xml;
                     '''
                     sh 'docker rmi -f localhost:4000/spring-boot-container-demo:latest'
                     sh 'docker compose -f ./container/docker/compose.yaml build'
