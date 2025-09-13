@@ -57,7 +57,7 @@ pipeline {
                     sed -i 's|        <!-- <appender-ref ref="STDOUT" /> -->|        <appender-ref ref="STDOUT" />|g' src/main/resources/logback-spring.xml;
                     '''
                     sh 'docker rmi -f localhost:4000/spring-boot-container-demo:latest'
-                    sh 'docker compose -f ./container/docker/compose.yaml build'
+                    sh 'docker compose -f ./container/docker/compose.yaml build --no-cache'
                 }
             }
         }
@@ -76,8 +76,9 @@ pipeline {
             steps {
                 script {
 				  sh '''
-				  kubectl apply -f container/kubernates/service.yaml --validate=false
-                  kubectl apply -f container/kubernates/deployment.yaml --validate=false
+                  kubectl delete -f container/kubernates/deployment.yaml
+                  kubectl apply -f container/kubernates/deployment.yaml
+				  kubectl apply -f container/kubernates/service.yaml
 				  '''
                 }
             }
