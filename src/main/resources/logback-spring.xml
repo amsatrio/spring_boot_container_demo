@@ -96,7 +96,7 @@
             </providers>
         </encoder>
         <topic>demo-project-log</topic>
-        <producerConfig>bootstrap.servers=kafka-service:9092</producerConfig>
+        <producerConfig>bootstrap.servers=my-cluster-kafka-bootstrap:9092</producerConfig>
         <producerConfig>retries=2</producerConfig>
     </appender>
 

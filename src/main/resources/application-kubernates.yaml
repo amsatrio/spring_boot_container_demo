@@ -53,11 +53,11 @@ spring:
 
   kafka:
     bootstrap-servers:
-    - kafka-service:9092
+    - my-cluster-kafka-bootstrap:9092
     producer:
       retries: 2
       bootstrap-servers:
-      - kafka-service:9092
+      - my-cluster-kafka-bootstrap:9092
 
 # DOCUMENTATION
 springdoc:
