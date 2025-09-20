@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.github.amsatrio.spring_boot_container_demo.dto.request.FilterRequest;
 import io.github.amsatrio.spring_boot_container_demo.dto.request.SortRequest;
@@ -16,6 +20,7 @@ public class MBiodataService {
     @Autowired
     private MBiodataRepository mBiodataRepository;
 
+    @Cacheable(value = "mBiodataCache", key = "#id")
     public MBiodataDto findById(long id) {
         Optional<MBiodataDto> optionalDto = mBiodataRepository.findById(id);
         if (optionalDto.isEmpty()) {
@@ -24,6 +29,8 @@ public class MBiodataService {
         return optionalDto.get();
     }
 
+    @Transactional
+    @CachePut(value = "mBiodataCache", key = "#dto.id")
     public MBiodataDto create(MBiodataDto dto) {
         if (dto.getId() == null) {
             dto.setId(new Date().getTime());
@@ -40,6 +47,8 @@ public class MBiodataService {
         throw new RuntimeException("failed to insert data");
     }
 
+    @Transactional
+    @CachePut(value = "mBiodataCache", key = "#dto.id")
     public MBiodataDto update(MBiodataDto dto) {
         dto.setModifiedBy(0L);
         dto.setModifiedOn(new Date());
@@ -56,6 +65,8 @@ public class MBiodataService {
         throw new RuntimeException("failed to update data");
     }
 
+    @Transactional
+    @CacheEvict(value = "mBiodataCache", key = "#id")
     public void delete(long id) {
         boolean status = mBiodataRepository.delete(id);
         if (!status) {
@@ -63,6 +74,8 @@ public class MBiodataService {
         }
     }
 
+    @Transactional(readOnly = false)
+    @Cacheable(value = "mBiodataCache", key = "{#page, #size, #sorts, #filters, #globalFilters}")
     public PaginatedResponse<MBiodataDto> page(int page, int size, List<SortRequest> sorts, List<FilterRequest> filters,
             String search) {
         return mBiodataRepository.page(page, size, sorts, filters, search);

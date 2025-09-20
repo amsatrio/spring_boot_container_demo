@@ -76,9 +76,9 @@ pipeline {
             steps {
                 script {
 				  sh '''
-                  kubectl delete -f container/kubernates/deployment.yaml
-                  kubectl apply -f container/kubernates/deployment.yaml
-				  kubectl apply -f container/kubernates/service.yaml
+                  microk8s.kubectl apply -f container/kubernates/deployment.yaml
+				  microk8s.kubectl apply -f container/kubernates/service.yaml
+                  microk8s.kubectl rollout restart deployment spring-boot-container-demo
 				  '''
                 }
             }

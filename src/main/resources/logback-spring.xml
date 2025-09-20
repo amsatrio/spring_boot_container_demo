@@ -96,7 +96,8 @@
             </providers>
         </encoder>
         <topic>demo-project-log</topic>
-        <producerConfig>bootstrap.servers=my-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092</producerConfig>
+        <producerConfig>bootstrap.servers=my-cluster-kafka-bootstrap.broker.svc.cluster.local:9092</producerConfig>
+         <!-- <producerConfig>bootstrap.servers=dell3050.tailb8a972.ts.net:31773</producerConfig> -->
         <producerConfig>retries=2</producerConfig>
     </appender>
 
@@ -121,7 +122,7 @@
 
     <logger name="org.apache.kafka" level="info" />
     <root>
-        <!-- <appender-ref ref="KAFKA" /> -->
+        <appender-ref ref="KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
         <appender-ref ref="STDOUT" />
         <!-- <appender-ref ref="LOGSTASH" /> -->
