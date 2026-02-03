@@ -45,4 +45,11 @@ run: remove_logs
 	mvn spring-boot:run -X
 
 docker:
-	docker compose up
+	docker rmi -f localhost:5000/spring-boot-container-demo:latest
+	docker compose -f ./container/docker/compose.yaml build --no-cache
+	docker tag spring-boot-container-demo localhost:5000/spring-boot-container-demo
+	docker push localhost:5000/spring-boot-container-demo
+	docker compose -f ./container/docker/compose.yaml up -d
+	docker logs spring-boot-container-demo -f
+docker_down:
+	docker compose -f container/docker/compose.yaml down
