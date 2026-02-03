@@ -56,7 +56,7 @@
     </appender>
 
     <appender name="LOGSTASH" class="LogstashAccessTcpSocketAppender">
-        <destination>localhost:5000</destination>
+        <destination>localhost:5001</destination>
         <encoder class="LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
@@ -96,8 +96,8 @@
             </providers>
         </encoder>
         <topic>demo-project-log</topic>
-        <producerConfig>bootstrap.servers=my-cluster-kafka-bootstrap.broker.svc.cluster.local:9092</producerConfig>
-         <!-- <producerConfig>bootstrap.servers=dell3050.tailb8a972.ts.net:31773</producerConfig> -->
+        <!-- <producerConfig>bootstrap.servers=my-cluster-kafka-bootstrap.broker.svc.cluster.local:9092</producerConfig> -->
+         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
         <producerConfig>retries=2</producerConfig>
     </appender>
 
@@ -124,7 +124,7 @@
     <root>
         <appender-ref ref="KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
-        <appender-ref ref="STDOUT" />
+        <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
         <!-- <appender-ref ref="ASYNC_STDOUT" /> -->
         <!-- <appender-ref ref="ASYNC_ROLLING" /> -->

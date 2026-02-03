@@ -7,20 +7,20 @@ spring:
       minimum-idle: 5
     db1:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://dell3050.tailb8a972.ts.net:30000/db_hospital?zeroDateTimeBehavior=convertToNull
+        url: jdbc:mysql://localhost:3306/db-hospital?zeroDateTimeBehavior=convertToNull
         username: user_local
         password: auUmc2FutKX5frJad3uVpNM5mnbXhzS53AygPwijprD9qfabKYebggJpJKcWCN9NmQpUf7QM7wFcyg7AWMLhFTdHXy34fX7zvrMjbe9usMnPpAWS9KF779XTEAEQE22s
     db2:
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://dell3050.tailb8a972.ts.net:30001/db_hospital
+        url: jdbc:postgresql://localhost:5432/db-hospital
         username: user_local
         password: auUmc2FutKX5frJad3uVpNM5mnbXhzS53AygPwijprD9qfabKYebggJpJKcWCN9NmQpUf7QM7wFcyg7AWMLhFTdHXy34fX7zvrMjbe9usMnPpAWS9KF779XTEAEQE22s
 
   # Redis (Cache)
   cache.type: redis
   data.redis:
-    host: dell3050.tailb8a972.ts.net
-    port: 30009
+    host: localhost
+    port: 6379
     password: 8cffbaaa5bd144ab1939361a03103eed7d1af6fd9e2052b1ef73502745a3dfcc
     # Connection timeout in milliseconds
     timeout: 5000
@@ -53,11 +53,11 @@ spring:
 
   kafka:
     bootstrap-servers: 
-    - dell3050.tailb8a972.ts.net:31773
+    - localhost:31773
     producer:
       retries: 2
       bootstrap-servers: 
-      - dell3050.tailb8a972.ts.net:31773
+      - localhost:31773
       
 # DOCUMENTATION
 springdoc:

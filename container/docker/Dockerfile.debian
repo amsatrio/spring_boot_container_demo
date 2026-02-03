@@ -1,5 +1,5 @@
 # BUILDER
-FROM localhost:4000/java-builder:latest as builder
+FROM localhost:5000/java-builder:latest as builder
 RUN mkdir -p /app/src
 RUN mkdir -p /app/bin
 RUN mkdir -p /root/.m2
