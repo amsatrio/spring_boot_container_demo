@@ -100,9 +100,9 @@
 			<version>8.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.danielwegener</groupId>
-			<artifactId>logback-kafka-appender</artifactId>
-			<version>0.2.0-RC2</version>
+			<groupId>com.github.amsatrio</groupId>
+			<artifactId>logback-appender</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 
 

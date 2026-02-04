@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 
-<configuration>
+<configuration debug="true">
     <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder" />
     <import class="ch.qos.logback.core.rolling.RollingFileAppender" />
     <import class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy" />
@@ -9,8 +9,6 @@
     <import class="ch.qos.logback.core.ConsoleAppender" />
     <import class="net.logstash.logback.appender.LogstashAccessTcpSocketAppender" />
     <import class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder" />
-    <import class="com.github.danielwegener.logback.kafka.KafkaAppender" />
-    <import class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder" />
     <import class="ch.qos.logback.classic.AsyncAppender" />
     <import class="ch.qos.logback.core.encoder.LayoutWrappingEncoder" />
     <import class="ch.qos.logback.contrib.json.classic.JsonLayout" />
@@ -76,7 +74,15 @@
             </providers>
         </encoder>
     </appender>
-    <appender name="KAFKA" class="KafkaAppender">
+
+    <appender name="APP-CONSOLE" class="com.github.amsatrio.ConsoleAppender">
+        <encoder class="PatternLayoutEncoder">
+            <charset>${logEncoding}</charset>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APP-KAFKA" class="com.github.amsatrio.KafkaAppender">
         <encoder class="LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
@@ -96,8 +102,11 @@
             </providers>
         </encoder>
         <topic>demo-project-log</topic>
-         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
         <producerConfig>retries=2</producerConfig>
+        <producerConfig>batch.size=16384</producerConfig>
+        <producerConfig>acks=1</producerConfig>
+        <producerConfig>linger.ms=0</producerConfig>
     </appender>
 
     <appender name="ASYNC_STDOUT" class="AsyncAppender">
@@ -112,6 +121,13 @@
         <maxFlushTime>1000</maxFlushTime>
     </appender>
 
+    <appender name="ASYNC-KAFKA" class="AsyncAppender">
+        <appender-ref ref="APP-KAFKA" />
+        <queueSize>500</queueSize>
+        <maxFlushTime>1000</maxFlushTime>
+        <neverBlock>false</neverBlock>
+    </appender>
+
     <!--    CONFIG FILTER IN APPLICATION.YAML-->
     <!--    <filter class="LevelFilter">-->
     <!--        <level>DEBUG</level>-->
@@ -121,7 +137,8 @@
 
     <logger name="org.apache.kafka" level="info" />
     <root>
-        <appender-ref ref="KAFKA" />
+        <!-- <appender-ref ref="APP-CONSOLE" /> -->
+        <appender-ref ref="ASYNC-KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
         <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
