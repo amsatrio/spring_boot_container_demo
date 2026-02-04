@@ -121,7 +121,7 @@
         <maxFlushTime>1000</maxFlushTime>
     </appender>
 
-    <appender name="ASYNC-KAFKA" class="AsyncAppender">
+    <appender name="ASYNC-APP-KAFKA" class="AsyncAppender">
         <appender-ref ref="APP-KAFKA" />
         <queueSize>500</queueSize>
         <maxFlushTime>1000</maxFlushTime>
@@ -138,7 +138,7 @@
     <logger name="org.apache.kafka" level="info" />
     <root>
         <!-- <appender-ref ref="APP-CONSOLE" /> -->
-        <appender-ref ref="ASYNC-KAFKA" />
+        <appender-ref ref="ASYNC-APP-KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
         <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
