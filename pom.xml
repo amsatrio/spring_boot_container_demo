@@ -100,9 +100,9 @@
 			<version>8.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.amsatrio</groupId>
+			<groupId>io.github.amsatrio</groupId>
 			<artifactId>logback-appender</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2</version>
 		</dependency>
 
 

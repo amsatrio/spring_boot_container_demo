@@ -75,14 +75,14 @@
         </encoder>
     </appender>
 
-    <appender name="APP-CONSOLE" class="com.github.amsatrio.ConsoleAppender">
+    <appender name="APP-CONSOLE" class="io.github.amsatrio.ConsoleAppender">
         <encoder class="PatternLayoutEncoder">
             <charset>${logEncoding}</charset>
             <pattern>${logPattern}</pattern>
         </encoder>
     </appender>
 
-    <appender name="APP-KAFKA" class="com.github.amsatrio.KafkaAppender">
+    <appender name="APP-KAFKA" class="io.github.amsatrio.KafkaAppender">
         <encoder class="LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
@@ -102,7 +102,7 @@
             </providers>
         </encoder>
         <topic>demo-project-log</topic>
-        <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+        <producerConfig>bootstrap.servers=localhost:19092</producerConfig>
         <producerConfig>retries=2</producerConfig>
         <producerConfig>batch.size=16384</producerConfig>
         <producerConfig>acks=1</producerConfig>
