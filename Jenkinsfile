@@ -2,10 +2,16 @@
 pipeline {
     agent any
     stages {
+        stage('Check Docker') {
+            steps {
+                sh 'docker --version'
+                sh 'docker ps' // This will confirm if the socket mount is working
+            }
+        }
         stage('Build & Test') {
             agent {
                 docker {
-                        image 'localhost:4000/java-builder:latest'
+                        image 'localhost:5000/java-builder:latest'
                         args '''
                         --network host 
                         -u root 
@@ -28,7 +34,7 @@ pipeline {
         stage('Code Coverage') {
             agent {
                 docker {
-                        image 'localhost:4000/java-builder:latest'
+                        image 'localhost:5000/java-builder:latest'
                         args '''
                         --network host 
                         -u root 
@@ -56,33 +62,34 @@ pipeline {
                     # sed -i 's|        <appender-ref ref="STDOUT" />|        <!-- <appender-ref ref="STDOUT" /> -->|g' src/main/resources/logback-spring.xml;
                     sed -i 's|        <!-- <appender-ref ref="STDOUT" /> -->|        <appender-ref ref="STDOUT" />|g' src/main/resources/logback-spring.xml;
                     '''
-                    sh 'docker rmi -f localhost:4000/spring-boot-container-demo:latest'
+                    sh 'docker rmi -f localhost:5000/spring-boot-container-demo:latest'
                     sh 'docker compose -f ./container/docker/compose.yaml build --no-cache'
                 }
             }
         }
-        stage('Push the Image to Local Registry') {
-            agent any
-            steps {
-                script {
-                    sh 'docker tag spring-boot-container-demo localhost:4000/spring-boot-container-demo'
-                    sh 'docker push localhost:4000/spring-boot-container-demo'
-                }
-            }
-        }
+        
+        // stage('Push the Image to Local Registry') {
+        //     agent any
+        //     steps {
+        //         script {
+        //             sh 'docker tag spring-boot-container-demo localhost:5000/spring-boot-container-demo'
+        //             sh 'docker push localhost:5000/spring-boot-container-demo'
+        //         }
+        //     }
+        // }
 
-        stage('Kubernates Deploy') {
-            agent any
-            steps {
-                script {
-				  sh '''
-                  microk8s.kubectl apply -f container/kubernates/deployment.yaml
-				  microk8s.kubectl apply -f container/kubernates/service.yaml
-                  microk8s.kubectl rollout restart deployment spring-boot-container-demo
-				  '''
-                }
-            }
-        }
+        // stage('Kubernates Deploy') {
+        //     agent any
+        //     steps {
+        //         script {
+		// 		  sh '''
+        //           microk8s.kubectl apply -f container/kubernates/deployment.yaml
+		// 		  microk8s.kubectl apply -f container/kubernates/service.yaml
+        //           microk8s.kubectl rollout restart deployment spring-boot-container-demo
+		// 		  '''
+        //         }
+        //     }
+        // }
     }
     post {
         always {
