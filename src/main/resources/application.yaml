@@ -1,7 +1,7 @@
 spring.application.name: spring_boot_container_demo
 spring:
   profiles:
-    active: local
+    active: docker
   threads:
     virtual:
       enabled: false

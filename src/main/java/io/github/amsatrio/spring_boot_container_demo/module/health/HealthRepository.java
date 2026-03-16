@@ -6,6 +6,6 @@ import org.springframework.stereotype.Component;
 public class HealthRepository {
     private String status = "ok";
     public String getStatus(){
-        return new String(status);
+        return status;
     }
 }

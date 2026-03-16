@@ -16,8 +16,6 @@ build_skip_test:
 start: build_skip_test
 	java -Xms96m -Xmx256m -XX:+UseG1GC -XX:+UseStringDeduplication -server -jar ./target/spring_boot_container_demo-0.0.1-SNAPSHOT.jar
 
-
-
 tes:
 	./mvnw test -f pom.xml
 
@@ -27,13 +25,11 @@ clean:
 	rm -rf ./mobile_logs
 	rm -rf ./db
 	rm -rf ./tmp
-	rm -rf /home/mos/.cache/sharedfolder/spring_hospital
 
 remove_logs:
 	rm -rf ./logs
 
 initialize: clean
-	mkdir -p /home/mos/.cache/sharedfolder/spring_hospital
 
 
 code-quality:
@@ -49,5 +45,11 @@ run: remove_logs
 	mvn spring-boot:run -X
 
 docker:
-	docker image rm spring_hospital-app --force
-	docker compose up
+	docker rmi -f localhost:5000/spring-boot-container-demo:latest
+	docker compose -f ./container/docker/compose.yaml build --no-cache
+	docker tag spring-boot-container-demo localhost:5000/spring-boot-container-demo
+	docker push localhost:5000/spring-boot-container-demo
+	docker compose -f ./container/docker/compose.yaml up -d
+	docker logs spring-boot-container-demo -f
+docker_down:
+	docker compose -f container/docker/compose.yaml down
