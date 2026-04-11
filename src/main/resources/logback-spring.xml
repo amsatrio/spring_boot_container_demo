@@ -54,7 +54,7 @@
     </appender>
 
     <appender name="LOGSTASH" class="LogstashAccessTcpSocketAppender">
-        <destination>logstash:5001</destination>
+        <destination>optiplex3050.tailb8a972.ts.net:5001</destination>
         <encoder class="LoggingEventCompositeJsonEncoder">
             <providers>
                 <mdc />
@@ -101,9 +101,8 @@
                 <stackTrace />
             </providers>
         </encoder>
-        <topic>demo-project-log</topic>
-        <producerConfig>bootstrap.servers=kafka1:19092</producerConfig>
-         <!-- <producerConfig>bootstrap.servers=redpanda-0:9092</producerConfig> -->
+        <topic>${logServiceName}</topic>
+        <producerConfig>bootstrap.servers=optiplex3050.tailb8a972.ts.net:9092</producerConfig>
         <producerConfig>retries=2</producerConfig>
         <producerConfig>batch.size=16384</producerConfig>
         <producerConfig>acks=1</producerConfig>
@@ -138,7 +137,7 @@
 
     <logger name="org.apache.kafka" level="info" />
     <root>
-        <!-- <appender-ref ref="APP-CONSOLE" /> -->
+        <appender-ref ref="APP-CONSOLE" />
         <appender-ref ref="ASYNC-APP-KAFKA" />
         <!-- <appender-ref ref="ROLLING" /> -->
         <!-- <appender-ref ref="STDOUT" /> -->
