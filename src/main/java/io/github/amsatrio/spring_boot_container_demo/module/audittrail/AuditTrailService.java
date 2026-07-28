@@ -1,11 +1,30 @@
 package io.github.amsatrio.spring_boot_container_demo.module.audittrail;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import io.github.amsatrio.spring_boot_container_demo.util.AppGenerator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +64,86 @@ public class AuditTrailService {
             }
         } finally {
             MDC.clear();
+        }
+    }
+
+    @Autowired
+    private ElasticsearchClient elasticsearchClient;
+    
+    public List<AuditTrail> getAllLogsFromElastic() {
+        try {
+            SearchResponse<AuditTrail> response = elasticsearchClient.search(s -> s
+                    .index("kafka-*") 
+                    .size(10000) // retrieve up to 100 documents
+                    .query(q -> q.matchAll(m -> m)), 
+                AuditTrail.class
+            );
+
+            return response.hits().hits().stream()
+                    .map(Hit::source)
+                    .filter(Objects::nonNull)
+                    .filter(audit -> audit.getId() != null && !audit.getId().isBlank())
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            log.error("Error fetching logs from Elasticsearch", e);
+            throw new RuntimeException("Failed to query Elasticsearch", e);
+        }
+    }
+
+   @Value("${logging.file.name:logs/spring-boot-container-demo_current.log}")
+    private String logFilePath;
+
+    public List<AuditTrail> getAllLogsFromDir() {
+        Path filePath = Paths.get(logFilePath);
+        Path dirPath = filePath.getParent();
+
+        // Fallback to current directory if no parent folder is explicitly specified
+        if (dirPath == null) {
+            dirPath = Paths.get(".");
+        }
+
+        if (!Files.exists(dirPath) || !Files.isDirectory(dirPath)) {
+            log.warn("Log directory does not exist or is not a folder: {}", dirPath);
+            return Collections.emptyList();
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // 1. Stream all regular files in the directory
+        try (Stream<Path> stream = Files.list(dirPath)) {
+            return stream
+                    .filter(Files::isRegularFile) // Ignore subdirectories
+                    // Filter log files if needed, e.g., .filter(p -> p.toString().endsWith(".log"))
+                    .flatMap(path -> readAndParseFile(path, objectMapper).stream())
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            log.error("Error listing files in directory: {}", dirPath, e);
+            throw new RuntimeException("Failed to read log directory", e);
+        }
+    }
+
+    private List<AuditTrail> readAndParseFile(Path path, ObjectMapper objectMapper) {
+        try (Stream<String> lines = Files.lines(path)) {
+            return lines
+                    .map(String::trim)
+                    .filter(line -> !line.isEmpty())
+                    .map(line -> {
+                        try {
+                            if(!line.contains("\"id\":")) return null;
+                            return objectMapper.readValue(line, new TypeReference<AuditTrail>() {});
+                        } catch (Exception e) {
+                            log.error("Failed to parse log line in file {}: {}", path.getFileName(), line, e);
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            log.error("Error reading file: {}", path, e);
+            return Collections.emptyList(); // Skip unreadable/corrupted files gracefully
         }
     }
 }

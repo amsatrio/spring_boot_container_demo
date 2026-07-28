@@ -1,5 +1,8 @@
 package io.github.amsatrio.spring_boot_container_demo.module.audittrail;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +14,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AuditTrail {
     @Builder.Default
     private String id = "";
@@ -34,6 +38,7 @@ public class AuditTrail {
     private String message = "";
     @Builder.Default
     private String request = "";
+    @JsonProperty("events")
     @Builder.Default
     private String event = "";
     @Builder.Default

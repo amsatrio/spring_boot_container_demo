@@ -13,6 +13,9 @@ spring:
       retries: 2
       bootstrap-servers: 
       - optiplex3050.tailb8a972.ts.net:31773
+  elasticsearch:
+    uris:
+    - http://optiplex3050.tailb8a972.ts.net:9200
       
 # DOCUMENTATION
 springdoc:

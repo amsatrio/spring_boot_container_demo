@@ -1,0 +1,10 @@
+@base_url=http://localhost:8004/audit-trail
+
+### insert log
+GET {{base_url}}/insert-log
+
+### get all logs from elastic
+GET {{base_url}}/get-all-log-from-elastic
+
+### get all logs from file
+GET {{base_url}}/get-all-log-from-file

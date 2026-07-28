@@ -77,6 +77,16 @@
 			<version>0.0.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>co.elastic.clients</groupId>
+			<artifactId>elasticsearch-java</artifactId>
+			<!-- Use the version matching your Elasticsearch cluster, e.g., 8.x -->
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 
 		<!-- DOCUMENTATION-->
 		<dependency>

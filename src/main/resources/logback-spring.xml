@@ -47,9 +47,23 @@
             <maxHistory>7</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
-        <encoder class="PatternLayoutEncoder">
-            <charset>${logEncoding}</charset>
-            <pattern>${logPattern}</pattern>
+        <encoder class="LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc />
+                <context />
+                <logLevel />
+                <pattern>
+                    <pattern>
+                        {
+                        "app": "${logServiceName}"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName />
+                <message />
+                <logstashMarkers />
+                <stackTrace />
+            </providers>
         </encoder>
     </appender>
 
@@ -143,6 +157,6 @@
         <!-- <appender-ref ref="STDOUT" /> -->
         <!-- <appender-ref ref="LOGSTASH" /> -->
         <!-- <appender-ref ref="ASYNC_STDOUT" /> -->
-        <!-- <appender-ref ref="ASYNC_ROLLING" /> -->
+        <appender-ref ref="ASYNC_ROLLING" />
     </root>
 </configuration>
