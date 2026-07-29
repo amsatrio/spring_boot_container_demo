@@ -1,7 +1,31 @@
 @base_url=http://localhost:8004/audit-trail
 
+### sample log
+GET {{base_url}}/sample-log
+
 ### insert log
-GET {{base_url}}/insert-log
+POST {{base_url}}/insert-log
+Content-Type: application/json
+Accept-Encoding: gzip
+
+{
+    "tableName": "",
+    "oldValues": "",
+    "newValues": "",
+    "url": "http://localhost:8004/audit-trail/insert-log",
+    "username": "",
+    "role": "",
+    "ipAddress": "127.0.0.1",
+    "message": "insert log a",
+    "request": "",
+    "status": "INFO",
+    "error": null,
+    "events": "insertLog",
+    "activity": "",
+    "activityStatus": "",
+    "menu": "",
+    "module": ""
+}
 
 ### get all logs from elastic
 GET {{base_url}}/get-all-log-from-elastic

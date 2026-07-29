@@ -2,6 +2,8 @@ package io.github.amsatrio.spring_boot_container_demo.module.audittrail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +35,8 @@ public class AuditTrail {
     @Builder.Default
     private String ipAddress = "";
     @Builder.Default
+    private String devices = "";
+    @Builder.Default
     private String createdDate = "";
     @Builder.Default
     private String message = "";
@@ -41,6 +45,14 @@ public class AuditTrail {
     @JsonProperty("events")
     @Builder.Default
     private String event = "";
+    @Builder.Default
+    private String activity = "";
+    @Builder.Default
+    private String activityStatus = "";
+    @Builder.Default
+    private String menu = "";
+    @Builder.Default
+    private String module = "";
     @Builder.Default
     private AuditTrailStatus status = AuditTrailStatus.INFO;
     @Builder.Default
