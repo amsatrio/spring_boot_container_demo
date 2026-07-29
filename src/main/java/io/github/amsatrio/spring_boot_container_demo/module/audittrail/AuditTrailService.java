@@ -50,6 +50,7 @@ public class AuditTrailService {
             MDC.put("activityStatus", auditTrail.getActivityStatus());
             MDC.put("menu", auditTrail.getMenu());
             MDC.put("module", auditTrail.getModule());
+            MDC.put("devices", auditTrail.getDevices());
 
             switch (auditTrail.getStatus()) {
                 case AuditTrailStatus.ERROR:
