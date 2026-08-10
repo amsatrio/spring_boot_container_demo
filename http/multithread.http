@@ -1,0 +1,16 @@
+@base_url=http://localhost:8004
+
+### GET 1
+GET {{base_url}}/multi-thread/cooking-task
+
+### GET 1
+GET {{base_url}}/multi-thread/cooking-job
+
+### race condition
+GET {{base_url}}/multi-thread/simple-race-condition
+
+### race condition sync
+GET {{base_url}}/multi-thread/simple-race-condition-sync
+
+### simple-thread-communication
+GET {{base_url}}/multi-thread/simple-thread-communication
